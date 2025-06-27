@@ -2,7 +2,7 @@
   "name": "react-travel-advisor",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://kiruba2602.github.io/React-Travel-Adviser",
+  "homepage": "https://kiruba2602.github.io/React-Travel-Advisor",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
