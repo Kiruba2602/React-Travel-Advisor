@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/React-Travel-Adviser/static/css/main.2e662a65.css",
-    "main.js": "/React-Travel-Adviser/static/js/main.8ca0e9d5.js",
-    "static/js/453.047ccde3.chunk.js": "/React-Travel-Adviser/static/js/453.047ccde3.chunk.js",
-    "index.html": "/React-Travel-Adviser/index.html",
-    "main.2e662a65.css.map": "/React-Travel-Adviser/static/css/main.2e662a65.css.map",
-    "main.8ca0e9d5.js.map": "/React-Travel-Adviser/static/js/main.8ca0e9d5.js.map",
-    "453.047ccde3.chunk.js.map": "/React-Travel-Adviser/static/js/453.047ccde3.chunk.js.map"
+    "main.css": "/React-Travel-Advisor/static/css/main.2e662a65.css",
+    "main.js": "/React-Travel-Advisor/static/js/main.2e251068.js",
+    "static/js/453.047ccde3.chunk.js": "/React-Travel-Advisor/static/js/453.047ccde3.chunk.js",
+    "index.html": "/React-Travel-Advisor/index.html",
+    "main.2e662a65.css.map": "/React-Travel-Advisor/static/css/main.2e662a65.css.map",
+    "main.2e251068.js.map": "/React-Travel-Advisor/static/js/main.2e251068.js.map",
+    "453.047ccde3.chunk.js.map": "/React-Travel-Advisor/static/js/453.047ccde3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2e662a65.css",
-    "static/js/main.8ca0e9d5.js"
+    "static/js/main.2e251068.js"
   ]
 }
