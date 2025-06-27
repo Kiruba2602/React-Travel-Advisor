@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import { CssBaseline, Grid } from "@mui/material";
 import Map from "./components/Map";
 import List from "./components/List";
-import { getPlacesData } from "./api/travelAdvisorAPI";
+import { debouncedFetchPlaces } from "./utils/debouncedFetch";
 
 export interface Place {
   name: string;
@@ -11,39 +11,66 @@ export interface Place {
   [key: string]: any; // optional: allows other properties
 }
 
-function App() {
+export interface Coords {
+  lat: number;
+  lng: number;
+}
+
+export interface Bounds {
+  ne: Coords; // top-right
+  sw: Coords; // bottom-left
+}
+
+const App: React.FC = () => {
   const [type, setType] = useState<string>("restaurants");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [places, setPlaces] = useState<Place[]>([]);
-  const [childClicked, setChildClicked] = useState<string | null>(null);
+  const [coords, setCoords] = useState<Coords>({ lat: 0, lng: 0 });
+  const [bounds, setBounds] = useState<Bounds | null>(null);
+  const [childClicked, setChildClicked] = useState<number | null>(null);
 
   useEffect(() => {
+    if (!bounds) return;
     setIsLoading(true);
-    getPlacesData(type).then((data) => {
-      setPlaces(data.filter((place: Place) => place.name && place.num_reviews > 0));
-      setIsLoading(false);
-    });
-  }, [type, setPlaces]);
+    debouncedFetchPlaces(type, bounds, setPlaces, setIsLoading);
+
+    return () => {
+      debouncedFetchPlaces.cancel(); // cleanup
+    };
+  }, [type, bounds]);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }) => {
+        setCoords({ lat: latitude, lng: longitude });
+      },
+      (error) => console.error("Geolocation error:", error),
+      { enableHighAccuracy: true }
+    );
+  }, []);
+
   return (
     <div>
       <CssBaseline />
       <Header />
       <Grid container sx={{ width: "100%" }}>
         <Grid size={{ xs: 12, md: 4 }}>
-          <List
-            type={type}
-            setType={(type) => setType(type)}
-            isLoading={isLoading}
-            childClicked={childClicked}
-            places={places}
-          />
+          <List type={type} setType={setType} isLoading={isLoading} childClicked={childClicked} places={places} />
         </Grid>
         <Grid size={{ xs: 12, md: 8 }}>
-          <Map />
+          {coords.lat !== 0 && (
+            <Map
+              coords={coords}
+              places={places}
+              setBounds={setBounds}
+              setCoords={setCoords}
+              setChildClicked={setChildClicked}
+            />
+          )}
         </Grid>
       </Grid>
     </div>
   );
-}
+};
 
 export default App;

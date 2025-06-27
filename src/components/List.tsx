@@ -7,7 +7,7 @@ export interface ListProps {
   type: string;
   setType: (type: string) => void;
   isLoading: boolean;
-  childClicked: unknown;
+  childClicked: number | null;
   places: Place[];
 }
 
@@ -17,20 +17,19 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   textAlign: "start",
   color: (theme.vars ?? theme).palette.text.secondary,
-  elevation: 0,
-  boxShadow: "none"
+  boxShadow: "none",
 }));
 
 const List: React.FC<ListProps> = ({ type, setType, isLoading, childClicked, places }) => {
   return (
     <Box sx={{ p: 4 }}>
       {isLoading ? (
-        <Box sx={{ justifySelf: "center", alignSelf: "center" }}>
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
           <CircularProgress />
         </Box>
       ) : (
         <>
-          <FormControl sx={{ minWidth: 200, marginBottom: 10 }}>
+          <FormControl sx={{ minWidth: 250, mb: 3 }}>
             <InputLabel id="type">Type</InputLabel>
             <Select labelId="type" label="Type" id="placetype" value={type} onChange={(e) => setType(e.target.value)}>
               <MenuItem value="restaurants">Restaurants</MenuItem>
@@ -39,16 +38,18 @@ const List: React.FC<ListProps> = ({ type, setType, isLoading, childClicked, pla
             </Select>
           </FormControl>
           <Grid container spacing={2} sx={{ height: "75vh", overflow: "auto" }}>
-            {places &&
-              places.map((place, index) => {
-                return (
-                  <Grid size={{ xs: 12 }}>
-                    <Item>
-                      <PlaceDetails key={index} place={place} />
-                    </Item>
-                  </Grid>
-                );
-              })}
+            {places.map((place, index) => (
+              <Grid size={{ xs: 12 }} key={index}>
+                <Item
+                  sx={{
+                    border: childClicked === index ? "2px solid #1976d2" : "none",
+                    transition: "0.3s",
+                  }}
+                >
+                  <PlaceDetails place={place} />
+                </Item>
+              </Grid>
+            ))}
           </Grid>
         </>
       )}
